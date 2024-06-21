@@ -16,40 +16,26 @@ export class ProductsService {
     return this.productRepo.find();
   }
 
-  findOne(id: number) {
-    const product = this.productRepo.findOne({ where: { id } });
+  async findOne(id: number) {
+    const product = await this.productRepo.findOne({ where: { id } });
     if (!product) {
       throw new NotFoundException(`Product #${id} not found`);
     }
     return product;
   }
 
-  // create(data: CreateProductDto) {
-  //   this.counterId = this.counterId + 1;
-  //   const newProduct = {
-  //     id: this.counterId,
-  //     ...data,
-  //   };
-  //   this.products.push(newProduct);
-  //   return newProduct;
-  // }
+  create(data: CreateProductDto) {
+    const newProduct = this.productRepo.create(data); // con esto asigna todo siguiendo lo que vino del DTO. Esto crea la instancia
+    return this.productRepo.save(newProduct); // esto guarda la instancia
+  }
 
-  // update(id: number, changes: UpdateProductDto) {
-  //   const product = this.findOne(id);
-  //   const index = this.products.findIndex((item) => item.id === id);
-  //   this.products[index] = {
-  //     ...product,
-  //     ...changes,
-  //   };
-  //   return this.products[index];
-  // }
+  async update(id: number, changes: UpdateProductDto) {
+    const product = await this.productRepo.findOne({ where: { id } });
+    this.productRepo.merge(product, changes); // pone los cambios
+    return this.productRepo.save(product);
+  }
 
-  //   remove(id: number) {
-  //     const index = this.products.findIndex((item) => item.id === id);
-  //     if (index === -1) {
-  //       throw new NotFoundException(`Product #${id} not found`);
-  //     }
-  //     this.products.splice(index, 1);
-  //     return true;
-  //   }
+  async remove(id: number) {
+    return this.productRepo.delete(id); // podria validad si el producto existe
+  }
 }
