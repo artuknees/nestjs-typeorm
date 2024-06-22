@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
+import { GlobalModule } from './global/global.module';
 import config from './config';
 
 @Module({
@@ -27,6 +28,7 @@ import config from './config';
     UsersModule,
     ProductsModule,
     DatabaseModule,
+    GlobalModule,
   ],
   controllers: [AppController],
   providers: [

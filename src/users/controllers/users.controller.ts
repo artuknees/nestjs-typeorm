@@ -18,11 +18,6 @@ import { ApiTags } from '@nestjs/swagger';
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
-  // @Get('tasks')
-  // tasks() {
-  //   return this.usersService.getTasks();
-  // }
-
   @Get()
   findAll() {
     return this.usersService.findAll();
@@ -32,11 +27,6 @@ export class UsersController {
   get(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.findOne(id);
   }
-
-  // @Get(':id/orders')
-  // getOrders(@Param('id', ParseIntPipe) id: number) {
-  //   return this.usersService.getOrderByUser(id);
-  // }
 
   @Post()
   create(@Body() payload: CreateUserDto) {

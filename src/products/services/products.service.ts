@@ -35,7 +35,7 @@ export class ProductsService {
     return this.productRepo.save(product);
   }
 
-  async remove(id: number) {
+  remove(id: number) {
     return this.productRepo.delete(id); // podria validad si el producto existe
   }
 }

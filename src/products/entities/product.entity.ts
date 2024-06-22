@@ -1,4 +1,10 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import {
+  PrimaryGeneratedColumn,
+  Column,
+  Entity,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('Products')
 export class Product {
@@ -19,4 +25,17 @@ export class Product {
 
   @Column({ type: 'varchar', length: 255 })
   image: string;
+
+  @CreateDateColumn({
+    // timestamp tz es que organiza la zona horaria. adapta al pais
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP', // se carga automatico
+  })
+  createdAt: Date;
+
+  @UpdateDateColumn({
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP', // se carga automatico
+  })
+  updatedAt: Date;
 }
