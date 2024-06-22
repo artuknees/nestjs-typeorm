@@ -10,12 +10,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Customer } from './entities/customer.entity';
 import { User } from './entities/user.entity';
 import { GlobalModule } from 'src/global/global.module';
+import { Order } from './entities/order.entity';
+import { OrderProduct } from './entities/order-product.entity';
 
 @Module({
   imports: [
     ProductsModule,
     GlobalModule,
-    TypeOrmModule.forFeature([Customer, User]),
+    TypeOrmModule.forFeature([Customer, User, Order, OrderProduct]),
   ],
   controllers: [CustomerController, UsersController],
   providers: [CustomersService, UsersService],
