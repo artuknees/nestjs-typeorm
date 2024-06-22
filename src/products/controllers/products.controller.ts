@@ -8,7 +8,6 @@ import {
   HttpStatus,
   HttpCode,
   Patch,
-  // ParseIntPipe,
 } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 

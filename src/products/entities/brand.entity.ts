@@ -1,7 +1,9 @@
-import { PrimaryGeneratedColumn, Column, Entity } from 'typeorm';
+import { DateCommonEntity } from '../../global/entities/date-common.entity';
+import { PrimaryGeneratedColumn, Column, Entity, OneToMany } from 'typeorm';
+import { Product } from './product.entity';
 
 @Entity('Brand')
-export class Brand {
+export class Brand extends DateCommonEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -10,4 +12,7 @@ export class Brand {
 
   @Column({ type: 'varchar', length: 255 })
   image: string;
+
+  @OneToMany(() => Product, (product) => product.brand)
+  product: Product[];
 }

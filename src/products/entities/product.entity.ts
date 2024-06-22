@@ -4,7 +4,12 @@ import {
   Entity,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
+import { Brand } from './brand.entity';
+import { Category } from './category.entity';
 
 @Entity('Products')
 export class Product {
@@ -26,6 +31,7 @@ export class Product {
   @Column({ type: 'varchar', length: 255 })
   image: string;
 
+  // en los siguientes casos lo voy a extender de una clase generica
   @CreateDateColumn({
     // timestamp tz es que organiza la zona horaria. adapta al pais
     type: 'timestamptz',
@@ -38,4 +44,11 @@ export class Product {
     default: () => 'CURRENT_TIMESTAMP', // se carga automatico
   })
   updatedAt: Date;
+
+  @ManyToOne(() => Brand, (brand) => brand.product)
+  brand: Brand;
+
+  @ManyToMany(() => Category, (category) => category.products)
+  @JoinTable()
+  categories: Category[];
 }

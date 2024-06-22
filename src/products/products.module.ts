@@ -12,9 +12,10 @@ import { CategoriesService } from './services/categories.service';
 import { Product } from './entities/product.entity';
 import { Brand } from './entities/brand.entity';
 import { Category } from './entities/category.entity';
+import { GlobalModule } from 'src/global/global.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Product, Brand, Category])],
+  imports: [TypeOrmModule.forFeature([Product, Brand, Category]), GlobalModule],
   controllers: [ProductsController, CategoriesController, BrandsController],
   providers: [ProductsService, BrandsService, CategoriesService],
   exports: [ProductsService],
