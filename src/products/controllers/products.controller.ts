@@ -42,8 +42,25 @@ export class ProductsController {
     return this.productsService.update(id, payload);
   }
 
+  @Patch(':id/category/:categoryId')
+  addCategory(
+    @Param('id') id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+  ) {
+    return this.productsService.addCategoryToproduct(id, categoryId);
+  }
+
   @Delete(':id')
   delete(@Param('id') id: number) {
     return this.productsService.remove(id);
+  }
+
+  @Delete(':id/category/:categoryId')
+  deleteCategory(
+    @Param('id') id: number,
+    @Param('categoryId', ParseIntPipe) categoryId: number,
+    // le pido parse int para que lo haga numero, porque si no llega como string
+  ) {
+    return this.productsService.removeCategoryByProduct(id, categoryId);
   }
 }

@@ -54,15 +54,45 @@ export class ProductsService {
 
   async update(id: number, changes: UpdateProductDto) {
     const product = await this.productRepo.findOne({ where: { id } });
-
     if (changes.brandId) {
       const brand = await this.brandRepo.findOne({
         where: { id: changes.brandId },
       });
       product.brand = brand;
-      // solo lo guarda si habia brand
+    } // solo lo guarda si habia brand
+    if (changes.categoriesId) {
+      // para cambios de categorias
+      const categories = await this.categoryRepo.find({
+        where: { id: In(changes.categoriesId) },
+      });
+      product.categories = categories;
     }
     this.productRepo.merge(product, changes); // pone los cambios
+    return this.productRepo.save(product);
+  }
+
+  async removeCategoryByProduct(productId: number, categoryId: number) {
+    const product = await this.productRepo.findOne({
+      where: { id: productId },
+      relations: ['categories'], // debo incluir la relacion para que traiga el array
+    });
+    // se elimina el id con un metodo inmutable
+    product.categories = product.categories.filter(
+      (el) => el.id !== categoryId,
+    );
+    return this.productRepo.save(product);
+  }
+
+  async addCategoryToproduct(productId: number, categoryId: number) {
+    const product = await this.productRepo.findOne({
+      where: { id: productId },
+      relations: ['categories'], // debo incluir la relacion para que traiga el array
+    });
+    // primero hay que hacer get a la categoria
+    const category = await this.categoryRepo.findOne({
+      where: { id: categoryId },
+    });
+    product.categories.push(category);
     return this.productRepo.save(product);
   }
 
