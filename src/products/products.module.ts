@@ -18,6 +18,6 @@ import { GlobalModule } from 'src/global/global.module';
   imports: [TypeOrmModule.forFeature([Product, Brand, Category]), GlobalModule],
   controllers: [ProductsController, CategoriesController, BrandsController],
   providers: [ProductsService, BrandsService, CategoriesService],
-  exports: [ProductsService],
+  exports: [ProductsService, TypeOrmModule], // con decir que TypeORM module es exportable digo que todas las entidades seran utilizables por los otros modulos
 })
 export class ProductsModule {}
