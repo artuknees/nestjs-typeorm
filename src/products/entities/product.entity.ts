@@ -7,11 +7,13 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  Index,
 } from 'typeorm';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
 @Entity('Products')
+@Index(['price', 'stock']) // asi indexo varios campos a la vez
 export class Product {
   @PrimaryGeneratedColumn()
   id: number;
@@ -22,6 +24,8 @@ export class Product {
   @Column({ type: 'text' })
   description: string;
 
+  // @Index() // la db sabe que el precio esta indexado. Una consulta por precio sera mas rapida
+  // si solo indexo este campo, lo hago asi
   @Column({ type: 'int' })
   price: number;
 
