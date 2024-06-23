@@ -2,7 +2,7 @@ import { DateCommonEntity } from '../../global/entities/date-common.entity';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Product } from './product.entity';
 
-@Entity('Category')
+@Entity({ name: 'categories' })
 export class Category extends DateCommonEntity {
   @PrimaryGeneratedColumn()
   id: number;

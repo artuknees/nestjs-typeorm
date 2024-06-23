@@ -9,7 +9,7 @@ import { DateCommonEntity } from '../../global/entities/date-common.entity';
 import { User } from './user.entity';
 import { Order } from './order.entity';
 
-@Entity('Customer')
+@Entity({ name: 'customers' })
 export class Customer extends DateCommonEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -18,7 +18,7 @@ export class Customer extends DateCommonEntity {
   name: string;
 
   @Column({ type: 'varchar', length: 255 })
-  lastName: string;
+  last_name: string;
 
   @Column({ type: 'varchar', length: 255 })
   phone: string;

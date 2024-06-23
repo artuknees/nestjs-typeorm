@@ -8,7 +8,7 @@ import {
 import { DateCommonEntity } from '../../global/entities/date-common.entity';
 import { Customer } from './customer.entity';
 
-@Entity('Users')
+@Entity({ name: 'users' })
 export class User extends DateCommonEntity {
   @PrimaryGeneratedColumn()
   id: number;
@@ -23,7 +23,8 @@ export class User extends DateCommonEntity {
   role: string;
 
   @OneToOne(() => Customer, (customer) => customer.user, { nullable: true }) // digo que hay referencia a customer pero que puede ser nulleable
-  @JoinColumn() // en relaciones uno a uno, solo una de las tablas carga con la relacion y con este decorador se indica.
+  @JoinColumn({ name: 'customer_id' }) // en relaciones uno a uno, solo una de las tablas carga con la relacion y con este decorador se indica.
+  // le cambio el nombre de la relacion en la db
   customer: Customer;
 
   // included creadedAt and updatedAt with inheritance

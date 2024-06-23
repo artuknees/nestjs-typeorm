@@ -8,11 +8,12 @@ import {
   ManyToMany,
   JoinTable,
   Index,
+  JoinColumn,
 } from 'typeorm';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
 
-@Entity('Products')
+@Entity({ name: 'products' }) // modifico el nombre de la tabla
 @Index(['price', 'stock']) // asi indexo varios campos a la vez
 export class Product {
   @PrimaryGeneratedColumn()
@@ -37,22 +38,34 @@ export class Product {
 
   // en los siguientes casos lo voy a extender de una clase generica
   @CreateDateColumn({
+    name: 'created_at', // defino el nombre de la columna en la base de datos
     // timestamp tz es que organiza la zona horaria. adapta al pais
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP', // se carga automatico
   })
-  createdAt: Date;
+  createdAt: Date; // esto esta bien manejarlo en camel case porque es del lado de JS
 
   @UpdateDateColumn({
+    name: 'updated_at',
     type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP', // se carga automatico
   })
   updatedAt: Date;
 
   @ManyToOne(() => Brand, (brand) => brand.product)
+  // este tiene la relacion siempre por ser la entidad debil. le agrego el JoinColumn para especificar el nombre de la columna
+  @JoinColumn({ name: 'brand_id' })
   brand: Brand;
 
   @ManyToMany(() => Category, (category) => category.products)
-  @JoinTable()
+  @JoinTable({
+    name: 'product_categories', // el nombre de la tabla, que typeORM armo por defecto
+    joinColumn: {
+      name: 'product_id', // aca se pone la entidad en donde estoy ahora
+    },
+    inverseJoinColumn: {
+      name: 'category_id', // el nombre de la otra columna
+    },
+  }) // tiene la relacion
   categories: Category[];
 }
