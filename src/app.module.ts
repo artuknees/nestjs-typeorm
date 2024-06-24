@@ -10,6 +10,7 @@ import { ProductsModule } from './products/products.module';
 import { DatabaseModule } from './database/database.module';
 import { enviroments } from './enviroments';
 import { GlobalModule } from './global/global.module';
+import { AuthModule } from './auth/auth.module';
 import config from './config';
 
 @Module({
@@ -29,6 +30,7 @@ import config from './config';
     ProductsModule,
     DatabaseModule,
     GlobalModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [

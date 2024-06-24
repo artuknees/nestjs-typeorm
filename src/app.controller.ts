@@ -1,6 +1,7 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { AppService } from './app.service';
 import { ApiTags } from '@nestjs/swagger';
+import { ApiKeyGuard } from './auth/guards/api-key.guard';
 
 @ApiTags('General')
 @Controller()
@@ -11,6 +12,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @UseGuards(ApiKeyGuard) // con esto le aplico el guardian
   @Get('nuevo')
   newEndpoint() {
     return 'yo soy nuevo';
