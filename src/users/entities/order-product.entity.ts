@@ -1,16 +1,18 @@
 import { Product } from '../../products/entities/product.entity';
-import { DateCommonEntity } from '../../global/entities/date-common.entity';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { Order } from './order.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'order_product' })
-export class OrderProduct extends DateCommonEntity {
+export class OrderProduct {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -25,4 +27,20 @@ export class OrderProduct extends DateCommonEntity {
   @ManyToOne(() => Order, (order) => order.items)
   @JoinColumn({ name: 'order_id' })
   order: Order;
+
+  @Exclude() // agregando este decorador, va a excluir este campo en la respuesta
+  @CreateDateColumn({
+    name: 'created_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  createdAt: Date;
+
+  @Exclude()
+  @UpdateDateColumn({
+    name: 'updated_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  updatedAt: Date;
 }
