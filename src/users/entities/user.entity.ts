@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { DateCommonEntity } from '../../global/entities/date-common.entity';
 import { Customer } from './customer.entity';
+import { Exclude } from 'class-transformer';
 
 @Entity({ name: 'users' })
 export class User extends DateCommonEntity {
@@ -16,6 +17,7 @@ export class User extends DateCommonEntity {
   @Column({ type: 'varchar', length: 255, unique: true })
   email: string;
 
+  @Exclude()
   @Column({ type: 'varchar', length: 255 })
   password: string; // should be encrypted
 

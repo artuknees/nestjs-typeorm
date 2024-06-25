@@ -1,12 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-
 import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
-
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { CustomersService } from './customers.service';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -29,8 +27,16 @@ export class UsersService {
     return user;
   }
 
+  findByEmail(email: string) {
+    return this.userRepo.find({
+      where: { email },
+    });
+  }
+
   async create(data: CreateUserDto) {
     const newUser = this.userRepo.create(data);
+    const hashedPassword = await bcrypt.hash(data.password, 10); // con esto se hashea la contraseña - 10 es el numero de saltos
+    newUser.password = hashedPassword; // asigno el password
     if (data.customerId) {
       const customer = await this.customerService.findOne(data.customerId);
       newUser.customer = customer;
