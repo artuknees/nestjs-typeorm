@@ -1,4 +1,4 @@
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, ExtractJwt } from 'passport-jwt';
 import config from '../../config';
@@ -20,9 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     // if (Date.now() / 1000 > payload.exp) {
     //   throw new UnauthorizedException('Expired JWT');
     // }
-    if (payload.role !== 'admin') {
-      throw new UnauthorizedException('No sos un admin');
-    }
     return payload;
   }
 }

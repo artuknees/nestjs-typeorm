@@ -21,11 +21,16 @@ import {
 } from '../dtos/products.dtos';
 import { ProductsService } from './../services/products.service';
 // import { AuthGuard } from '@nestjs/passport';
-import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { RolesGuard } from '../../auth/guards/roles.guard';
+
 import { Public } from '../../auth/decorators/public.decorator';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { Role } from '../../auth/models/roles.model';
 
 // @UseGuards(AuthGuard('jwt')) // le puse el guard del jwt strategy para todos los endpoints de productos
-@UseGuards(JwtAuthGuard) // le pongo el guard custom que ya incluye el jwt strategy
+@UseGuards(JwtAuthGuard, RolesGuard) // le pongo el guard custom que ya incluye el jwt strategy
+// pongo los dos guards juntos -> eso ejecuta primero el de jwt y segundo el de roles
 @ApiTags('Products')
 @Controller('products')
 export class ProductsController {
@@ -44,6 +49,8 @@ export class ProductsController {
     return this.productsService.findOne(productId);
   }
 
+  @Roles(Role.ADMIN)
+  // @Roles(Role.ADMIN, Role.SUPERADMIN) --> asi puedo mandar mas
   @Post()
   create(@Body() payload: CreateProductDto) {
     return this.productsService.create(payload);
